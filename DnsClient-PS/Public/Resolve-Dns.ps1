@@ -9,30 +9,58 @@ function Resolve-Dns {
         [QueryType]$QueryType = [QueryType]::A,
         [QueryClass]$QueryClass = [QueryClass]::IN,
         [Alias('ns','NameServers')]
-        [string[]]$NameServer
+        [string[]]$NameServer,
+        [switch]$UseCache,
+        [switch]$Recursion,
+        [TimeSpan]$Timeout,
+        [int]$Retries,
+        [switch]$ThrowDnsErrors,
+        [switch]$UseRandomNameServer,
+        [switch]$ContinueOnDnsError,
+        [switch]$ContinueOnEmptyResponse,
+        [switch]$UseTcpFallback,
+        [switch]$UseTcpOnly,
+        [int]$ExtendedDnsBufferSize,
+        [switch]$EnableAuditTrail,
+        [switch]$RequestDnsSecRecords
     )
 
-    $client = Get-LookupClient
-    $nsList = Get-NameServerList $NameServer
+    Begin {
+        $client = Get-LookupClient
+        $nsList = Get-NameServerList $NameServer
+        $qOpts = Resolve-QueryOptions @PSBoundParameters
+    }
 
-    # Check for IP based PTR
-    if ($QueryType -eq [QueryType]::PTR -and
-        $Query -notmatch '\.in-addr\.arpa(?:\.)?')
-    {
-        # We're going to assume anyone asking for a PTR
-        # where the query doesn't end with .in-addr.arpa
-        # has given us an IP that we can use with
-        # QueryServerReverse.
+    Process {
+        # Check for IP based PTR
+        if ($QueryType -eq [QueryType]::PTR -and
+            $Query -notmatch '\.in-addr\.arpa(?:\.)?')
+        {
+            # We're going to assume anyone asking for a PTR
+            # where the query doesn't end with .in-addr.arpa
+            # has given us an IP that we can use with
+            # QueryServerReverse.
 
-        $client.QueryServerReverse($nsList, $Query)
+            if ($qOpts) {
+                $client.QueryServerReverse($nsList, $Query, $qOpts)
+            } else {
+                $client.QueryServerReverse($nsList, $Query)
+            }
 
-    } else {
+        } else {
 
-        # Everything else should be a standard query question
-        $question = [DnsQuestion]::new($Query, $QueryType, $QueryClass)
+            # Everything else should be a standard query question
+            $question = [DnsQuestion]::new($Query, $QueryType, $QueryClass)
 
-        $client.QueryServer($nsList, $question)
+            if ($qOpts) {
+                $client.QueryServer($nsList, $question, $qOpts)
+            } else {
+                $client.QueryServer($nsList, $question)
+            }
+
+        }
 
     }
+
 
 }

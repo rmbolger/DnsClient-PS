@@ -26,63 +26,42 @@ function Set-DnsClientSetting {
         $script:ActiveNameServers = $nsList
     }
 
-    $opts = $script:ClientOptions
+    $cOpts = Get-LookupClientOptions
     $dirtyOptions = $false
     $psbKeys = $PSBoundParameters.Keys
 
     # deal with all the switch parameters
     # UseExtendedDns is not here because it's not directly settable.
     # It's a calculated property based on ExtendedDnsBufferSize and RequestDnsSecRecords.
-    $switchParams = @(
+    $paramNames = @(
         'UseCache'
         'Recursion'
+        'Timeout'
+        'Retries'
         'ThrowDnsErrors'
         'UseRandomNameServer'
         'ContinueOnDnsError'
         'ContinueOnEmptyResponse'
         'UseTcpFallback'
         'UseTcpOnly'
+        'ExtendedDnsBufferSize'
         'EnableAuditTrail'
+        'MinimumCacheTimeout'
+        'MaximumCacheTimeout'
         'RequestDnsSecRecords'
     )
-    foreach ($switch in $switchParams) {
-        if ($switch -in $psbKeys -and $opts.$switch -ne $PSBoundParameters[$switch]) {
-            Write-Verbose "$switch set to $($PSBoundParameters[$switch])"
-            $opts.$switch = $PSBoundParameters[$switch]
+    foreach ($pName in $paramNames) {
+        if ($pName -in $psbKeys -and $cOpts.$pName -ne $PSBoundParameters[$pName]) {
+            Write-Verbose "$pName set to $($PSBoundParameters[$pName])"
+            $cOpts.$pName = $PSBoundParameters[$pName]
             $dirtyOptions = $true
         }
-    }
-
-    if ($Timeout -and $opts.Timeout -ne $Timeout) {
-        Write-Verbose "Timeout set to $Timeout"
-        $opts.Timeout = $Timeout
-        $dirtyOptions = $true
-    }
-    if ($Retries -and $opts.Retries -ne $Retries) {
-        Write-Verbose "Retries set to $Retries"
-        $opts.Retries = $Retries
-        $dirtyOptions = $true
-    }
-    if ($ExtendedDnsBufferSize -and $opts.ExtendedDnsBufferSize -ne $ExtendedDnsBufferSize) {
-        Write-Verbose "ExtendedDnsBufferSize set to $ExtendedDnsBufferSize"
-        $opts.ExtendedDnsBufferSize = $ExtendedDnsBufferSize
-        $dirtyOptions = $true
-    }
-    if ($MinimumCacheTimeout -and $opts.MinimumCacheTimeout -ne $MinimumCacheTimeout) {
-        Write-Verbose "MinimumCacheTimeout set to $MinimumCacheTimeout"
-        $opts.MinimumCacheTimeout = $MinimumCacheTimeout
-        $dirtyOptions = $true
-    }
-    if ($MaximumCacheTimeout -and $opts.MaximumCacheTimeout -ne $MaximumCacheTimeout) {
-        Write-Verbose "MaximumCacheTimeout set to $MaximumCacheTimeout"
-        $opts.MaximumCacheTimeout = $MaximumCacheTimeout
-        $dirtyOptions = $true
     }
 
     # make a new client instance if the options have been changed
     if ($dirtyOptions) {
         Write-Debug "Creating new LookupClient with changed options"
-        $script:Client = [DnsClient.LookupClient]::new($opts)
+        $script:Client = [DnsClient.LookupClient]::new($cOpts)
     }
 
 

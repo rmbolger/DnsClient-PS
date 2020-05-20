@@ -5,3 +5,8 @@ function Get-LookupClient {
     [OutputType([DnsClient.LookupClient])]
     $script:Client
 }
+
+function Get-LookupClientOptions {
+    [OutputType([DnsClient.LookupClientOptions])]
+    $script:ClientOptions
+}
