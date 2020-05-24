@@ -1,13 +1,35 @@
 using namespace DnsClient
 
 function Resolve-Dns {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName='QuestionParts')]
     param(
-        [Parameter(Mandatory,Position=0)]
-        [string]$Query,
-        [Parameter(Position=1)]
+        [Parameter(
+            ParameterSetName = 'QuestionParts',
+            Mandatory,
+            Position=0,
+            ValueFromPipeline)]
+        [string[]]$Query,
+
+        [Parameter(
+            ParameterSetName = 'QuestionParts',
+            Position=1)]
         [QueryType]$QueryType = [QueryType]::A,
+
+        [Parameter(
+            ParameterSetName = 'QuestionParts'
+        )]
         [QueryClass]$QueryClass = [QueryClass]::IN,
+
+        [Parameter(
+            ParameterSetName = 'QuestionObject',
+            Position=0,
+            Mandatory,
+            ValueFromPipeline,
+            ValueFromPipelineByPropertyName
+        )]
+        [Alias('Questions')]
+        [DnsQuestion[]]$Question,
+
         [Alias('ns','NameServers')]
         [string[]]$NameServer,
         [switch]$UseCache,
@@ -32,30 +54,27 @@ function Resolve-Dns {
     }
 
     Process {
-        # Check for IP based PTR
-        if ($QueryType -eq [QueryType]::PTR -and
-            $Query -notmatch '\.in-addr\.arpa(?:\.)?')
-        {
-            # We're going to assume anyone asking for a PTR
-            # where the query doesn't end with .in-addr.arpa
-            # has given us an IP that we can use with
-            # QueryServerReverse.
 
-            if ($qOpts) {
-                $client.QueryServerReverse($nsList, $Query, $qOpts)
-            } else {
-                $client.QueryServerReverse($nsList, $Query)
+        # build the question object(s) out of the parts
+        if ('QuestionParts' -eq $PSCmdlet.ParameterSetName) {
+
+            $Question = foreach ($qry in $Query) {
+                if ($QueryType -eq [QueryType]::PTR -and
+                    $qry -notmatch '\.in-addr\.arpa(?:\.)?')
+                {
+                    [LookupClient]::GetReverseQuestion($qry)
+                } else {
+                    [DnsQuestion]::new($qry, $QueryType, $QueryClass)
+                }
             }
+        }
 
-        } else {
-
-            # Everything else should be a standard query question
-            $question = [DnsQuestion]::new($Query, $QueryType, $QueryClass)
+        foreach ($qst in $Question) {
 
             if ($qOpts) {
-                $client.QueryServer($nsList, $question, $qOpts)
+                $client.QueryServer($nsList, $qst, $qOpts)
             } else {
-                $client.QueryServer($nsList, $question)
+                $client.QueryServer($nsList, $qst)
             }
 
         }
