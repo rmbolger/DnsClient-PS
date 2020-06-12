@@ -51,8 +51,11 @@ function Resolve-QueryOptions {
     foreach ($pName in $paramNames) {
         if ($pName -in $psbKeys -and $cOpts.$pName -ne $PSBoundParameters[$pName]) {
             if (-not $qOpts) {
-                Write-Debug "Creating query specific options"
+                Write-Debug "Cloning query specific options from client options"
                 $qOpts = [DnsClient.DnsQueryOptions]::new()
+                $paramNames | ForEach-Object {
+                    $qOpts.$_ = $cOpts.$_
+                }
             }
             Write-Debug "$pName($($PSBoundParameters[$pName])) differs from current value"
             $qOpts.$pName = $PSBoundParameters[$pName]
