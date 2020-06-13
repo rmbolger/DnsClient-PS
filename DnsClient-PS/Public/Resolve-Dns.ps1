@@ -1,6 +1,7 @@
 using namespace DnsClient
 
 function Resolve-Dns {
+    [OutputType([DnsClient.DnsQueryResponse])]
     [CmdletBinding(DefaultParameterSetName='QuestionParts')]
     param(
         [Parameter(
