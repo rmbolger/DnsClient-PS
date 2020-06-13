@@ -35,7 +35,7 @@ if ([String]::IsNullOrWhiteSpace($PSScriptRoot)) {
     }
 
     # likely running from online, so download
-    $url = 'https://github.com/rmbolger/DnsClient-PS/archive/master.zip'
+    $url = 'https://github.com/rmbolger/DnsClient-PS/archive/main.zip'
     Write-Host "Downloading latest version of DnsClient-PS from $url" -ForegroundColor Cyan
     $file = Join-Path ([system.io.path]::GetTempPath()) 'DnsClient-PS.zip'
     $webclient = New-Object System.Net.WebClient
@@ -50,8 +50,8 @@ if ([String]::IsNullOrWhiteSpace($PSScriptRoot)) {
     Write-Host "Removing any old copy" -ForegroundColor Cyan
     Remove-Item "$installpath\DnsClient-PS" -Recurse -Force -EA Ignore
     Write-Host "Renaming folder" -ForegroundColor Cyan
-    Copy-Item "$installpath\DnsClient-PS-master\DnsClient-PS" $installpath -Recurse -Force -EA Continue
-    Remove-Item "$installpath\DnsClient-PS-master" -recurse -confirm:$false
+    Copy-Item "$installpath\DnsClient-PS-main\DnsClient-PS" $installpath -Recurse -Force -EA Continue
+    Remove-Item "$installpath\DnsClient-PS-main" -recurse -confirm:$false
     Import-Module -Name DnsClient-PS -Force
 } else {
     # running locally
