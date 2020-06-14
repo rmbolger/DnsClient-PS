@@ -75,6 +75,8 @@ function Get-NameServerList {
         $response = Resolve-Dns $nsString
         if ($response.Answers.Count -gt 0) {
 
+            # If there are multiple answers, we're only going to use the first one
+            # Time will tell if that comes back to bit us.
             if ($port -and ($port -as [int]) -gt 0) {
                 $ns = [DnsClient.NameServer]::new($response.Answers[0].Address, $port)
             } else {
