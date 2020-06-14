@@ -34,11 +34,11 @@ The primary function is `Resolve-Dns` and requires a `-Query` parameter that acc
 
 ```powershell
 Resolve-Dns -Query google.com
-# or
+
 Resolve-Dns google.com
-# or
+
 Resolve-Dns 'google.com','www.google.com'
-# or
+
 'google.com','www.google.com' | Resolve-Dns
 ```
 
@@ -47,14 +47,14 @@ The `-QueryType` and `-NameServer` parameters are the other two common ones you'
 ```powershell
 # Do an AAAA lookup
 Resolve-Dns google.com -QueryType AAAA
-# or
+
 Resolve-Dns google.com AAAA
 
 # Do an SRV lookup against a domain controller
 Resolve-Dns _gc._tcp.contoso.com SRV -NameServer dc1.contoso.com
-# or
+
 Resolve-Dns _gc._tcp.contoso.com SRV -ns dc1.contoso.com,dc2.contoso.com
-# or
+
 Resolve-Dns _gc._tcp.contoso.com SRV -ns 192.168.0.1:53,dc2.contoso.com:53
 ```
 
@@ -62,7 +62,7 @@ The output of a successful query is a [DnsQueryResponse](https://dnsclient.micha
 
 ```powershell
 Resolve-Dns google.com | Select-Object -Expand Answers
-# or
+
 (Resolve-Dns google.com).Answers
 ```
 
