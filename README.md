@@ -17,7 +17,18 @@ DNS query options in PowerShell and the native .NET class library have always be
 
 ## Release
 
-Not released yet.
+The latest release version can found in the [PowerShell Gallery](https://www.powershellgallery.com/packages/DnsClient-PS/) or the [GitHub releases page](https://github.com/rmbolger/DnsClient-PS/releases). Installing from the gallery is easiest using `Install-Module` from the PowerShellGet module. See [Installing PowerShellGet](https://docs.microsoft.com/en-us/powershell/scripting/gallery/installing-psget) if you don't already have it installed.
+
+```powershell
+# install for all users (requires elevated privs)
+Install-Module -Name DnsClient-PS -Scope AllUsers
+
+# install for current user
+Install-Module -Name DnsClient-PS -Scope CurrentUser
+```
+
+*NOTE: If you use PowerShell 5.1 or earlier, `Install-Module` may throw an error depending on your Windows and .NET version due to a change PowerShell Gallery made to their TLS settings. For more info and a workaround, see the [official blog post](https://devblogs.microsoft.com/powershell/powershell-gallery-tls-support/).*
+
 
 ## Development
 

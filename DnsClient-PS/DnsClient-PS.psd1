@@ -1,7 +1,7 @@
 @{
 
 RootModule = 'DnsClient-PS.psm1'
-ModuleVersion = '0.0.1'
+ModuleVersion = '1.0.0'
 GUID = '698438cc-f80d-4b88-aa04-16e302c1f326'
 Author = 'Ryan Bolger'
 Copyright = '(c) 2020 Ryan Bolger. All rights reserved.'
@@ -53,7 +53,15 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        # ReleaseNotes = ''
+        ReleaseNotes = @'
+## 1.0 (2020-06-14)
+
+* Initial Release
+* Added functions
+  * Get-DnsClientSetting
+  * Resolve-Dns
+  * Set-DnsClientSetting
+'@
 
     } # End of PSData hashtable
 
