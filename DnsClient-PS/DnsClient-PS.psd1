@@ -16,6 +16,9 @@ RequiredAssemblies = @(
     'lib\DnsClient.1.3.1-netstandard2.0.dll'
 )
 
+# Format files (.ps1xml) to be loaded when importing this module
+FormatsToProcess = 'DnsClient-PS.Format.ps1xml'
+
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
     'Get-DnsClientSetting'

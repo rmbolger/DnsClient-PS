@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+    <ViewDefinitions>
+        <View>
+            <Name>DnsResourceRecordDefault</Name>
+            <ViewSelectedBy>
+                <TypeName>DnsClient.Protocol.DnsResourceRecord</TypeName>
+            </ViewSelectedBy>
+            <TableControl>
+                <TableHeaders>
+                    <TableColumnHeader/>
+                    <TableColumnHeader/>
+                    <TableColumnHeader/>
+                    <TableColumnHeader/>
+                    <TableColumnHeader><Label>RecordData</Label></TableColumnHeader>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem><PropertyName>DomainName</PropertyName></TableColumnItem>
+                            <TableColumnItem><PropertyName>TimeToLive</PropertyName></TableColumnItem>
+                            <TableColumnItem><PropertyName>RecordClass</PropertyName></TableColumnItem>
+                            <TableColumnItem><PropertyName>RecordType</PropertyName></TableColumnItem>
+                            <TableColumnItem>
+                                <ScriptBlock>
+                                    $rstr = $_.ToString()
+                                    if ($rstr -match ' IN (?:\w+) (?&lt;recdata&gt;.*)$') {
+                                        $matches.recdata
+                                    } else {
+                                        (record parse error)
+                                    }
+                                </ScriptBlock>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+        <View>
+            <Name>DnsResourceRecordWide</Name>
+            <ViewSelectedBy>
+                <TypeName>DnsClient.Protocol.DnsResourceRecord</TypeName>
+            </ViewSelectedBy>
+            <WideControl>
+                <ColumnNumber>1</ColumnNumber>
+                <WideEntries>
+                    <WideEntry>
+                        <WideItem>
+                            <ScriptBlock>
+                                $_.ToString()
+                            </ScriptBlock>
+                        </WideItem>
+                    </WideEntry>
+                </WideEntries>
+            </WideControl>
+        </View>
+    </ViewDefinitions>
+</Configuration>
