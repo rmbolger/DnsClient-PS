@@ -24,7 +24,7 @@
                             <TableColumnItem>
                                 <ScriptBlock>
                                     $rstr = $_.ToString()
-                                    if ($rstr -match ' IN (?:\w+) (?&lt;recdata&gt;.*)$') {
+                                    if ($rstr -match ' (?:IN|CH|CS|HS) (?:\w+) (?&lt;recdata&gt;.*)$') {
                                         $matches.recdata
                                     } else {
                                         (record parse error)
