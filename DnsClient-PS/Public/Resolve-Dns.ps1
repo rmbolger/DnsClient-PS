@@ -102,46 +102,46 @@ function Resolve-Dns {
         A DnsQuestion object that represents a query, type, and class.
 
     .PARAMETER NameServer
-        One or more name server FQDNs or IP addresses optionally with a port appended such as 'ns.example.com', '192.168.0.1', or 'ns.example.com:53'.
+        One or more DNS server hostnames or IP addresses. The port is assumed to be 53 unless the server is followed by ":<port>" where <port> is an alternative listening port.
 
     .PARAMETER UseCache
-        Whether DNS queries should use response caching or not. The cache duration is calculated by the resource record of the response. Usually, the lowest TTL is used.
+        If specified, response caching is enabled. The cache duration is calculated by the resource record of the response. Usually, the lowest TTL is used.
 
     .PARAMETER Recursion
-        Whether DNS queries should instruct the DNS server to do recursive lookups, or not.
+        If specified, DNS queries should instruct the DNS server to do recursive lookups.
 
     .PARAMETER Timeout
-        TimeSpan used for limiting the connection and request time for one operation. Timeout must be greater than zero and less than 2147483647 milliseconds. If System.Threading.Timeout.InfiniteTimeSpan is used, no timeout will be applied.
+        [TimeSpan] used for limiting the connection and request time for one operation. Timeout must be greater than zero and less than [TimeSpan]::MaxValue. If [Threading.Timeout]::InfiniteTimeSpan is used, no timeout will be applied. Default is 5 seconds.
 
     .PARAMETER Retries
-        Number of tries to get a response from one name server before trying the next one. Only transient errors, like network or connection errors will be retried. Default is 2 which will be three tries total.
+        The number of tries to get a response from one name server before trying the next one. Only transient errors, like network or connection errors will be retried. Default is 2 which will be three tries total.
 
     .PARAMETER ThrowDnsErrors
-        If specified, a DnsResponseException is thrown when the query result has a DnsResponseCode other than NoError.
+        If specified, the resolver should throw a DnsResponseException in case the query result has a DnsResponseCode other than NoError. Default is False.
 
     .PARAMETER UseRandomNameServer
-        If specified, the client will randomly choose one of the configured NameServers on each consecutive request. If only one NameServer is configured, this setting is not used.
+        If specified, the resolver will cycle through all configured NameServers on each consecutive request, basically using a random server. Default is True. If only one NameServer is configured, this setting is not used.
 
     .PARAMETER ContinueOnDnsError
-        Whether to query the next configured NameServers in case the response of the last query returned a DnsResponseCode other than NoError.
+        If specified, the resolver will query the next configured NameServer if the last query returned a DnsResponseCode other than NoError. Default is True.
 
     .PARAMETER ContinueOnEmptyResponse
-        Whether to query the next configured NameServers if the response does not have an error DnsResponseCode but the query was not answered by the response.
+        If specified, the resolver will query the next configured NameServer if the response does not have an error DnsResponseCode but the query was not answered by the response. Default is True.
 
     .PARAMETER UseTcpFallback
-        Whether TCP should be used in case a UDP response is truncated.
+        If specified, the resolver will retry using TCP when a UDP response is truncated. Default is True.
 
     .PARAMETER UseTcpOnly
-        If specified, UDP will not be used at all. Enable this only if UDP cannot be used because of your firewall rules for example. Also, zone transfers (AXFR) must use TCP only.
+        If specified, the resolver will never use UDP. Default is False. Enable this only if UDP cannot be used because of your firewall rules for example. Also, zone transfers must use TCP only.
 
     .PARAMETER ExtendedDnsBufferSize
-        The maximum buffer used for UDP requests. If this value is less or equal to 512 bytes, EDNS might be disabled.
+        The maximum buffer used for UDP requests. Defaults to 4096. If this value is less or equal to 512 bytes, EDNS might be disabled.
 
     .PARAMETER EnableAuditTrail
-        If specified, the AuditTrail property of the response object will contain a dig'like log of the DNS conversation.
+        If specified, DNS responses will contain an AuditTrail property which contains a human readable version of the response similar to dig output. Default is False.
 
     .PARAMETER RequestDnsSecRecords
-        Whether EDNS should be enabled and the DO flag should be set.
+        If specified, EDNS should be enabled and the DO flag should be set. Defaults to False.
 
     .EXAMPLE
         Resolve-Dns -Query google.com

@@ -76,7 +76,7 @@ function Set-DnsClientSetting {
         One or more DNS server hostnames or IP addresses. The port is assumed to be 53 unless the server is followed by ":<port>" where <port> is an alternative listening port.
 
     .PARAMETER UseCache
-        If specified, response caching is enabled. The cache duration is calculated by the resource record of the response. Usually, the lowest TTL is used. Changing DNS servers or other settings will invalidate any existing cache.
+        If specified, response caching is enabled. The cache duration is calculated by the resource record of the response. Usually, the lowest TTL is used.
 
     .PARAMETER Recursion
         If specified, DNS queries should instruct the DNS server to do recursive lookups.
