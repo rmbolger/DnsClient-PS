@@ -44,7 +44,7 @@ PrivateData = @{
         Tags = 'dns','resolver','dns-client','dns-resolver','dig','nslookup','Linux','Mac'
 
         # A URL to the license for this module.
-        LicenseUri = 'https://github.com/rmbolger/DnsClient-PS/blob/master/LICENSE'
+        LicenseUri = 'https://github.com/rmbolger/DnsClient-PS/blob/main/LICENSE'
 
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/rmbolger/DnsClient-PS'
