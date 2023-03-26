@@ -1,7 +1,7 @@
 @{
 
 RootModule = 'DnsClient-PS.psm1'
-ModuleVersion = '1.0.0'
+ModuleVersion = '1.1.0'
 GUID = '698438cc-f80d-4b88-aa04-16e302c1f326'
 Author = 'Ryan Bolger'
 Copyright = '(c) 2020 Ryan Bolger. All rights reserved.'
@@ -12,8 +12,8 @@ DotNetFrameworkVersion = '4.7.1'
 
 # Assemblies that must be loaded prior to importing this module
 RequiredAssemblies = @(
-    'lib\System.Buffers.4.4.0-netstandard2.0.dll'
-    'lib\DnsClient.1.3.1-netstandard2.0.dll'
+    'lib\System.Buffers.4.5.1-netstandard2.0.dll'
+    'lib\DnsClient.1.7.0-netstandard2.0.dll'
 )
 
 # Format files (.ps1xml) to be loaded when importing this module
@@ -54,13 +54,9 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         ReleaseNotes = @'
-## 1.0 (2020-06-14)
+## 1.1.0 (2023-03-25)
 
-* Initial Release
-* Added functions
-  * Get-DnsClientSetting
-  * Resolve-Dns
-  * Set-DnsClientSetting
+* Upgraded DnsClient library version to 1.7.0 which includes support for parsing many additional record types including TLSA, RRSIG, DS, NSEC, DNSKEY, NAPTR, NSEC3, NSEC3PARAM, and SPF
 '@
 
     } # End of PSData hashtable
