@@ -12,7 +12,7 @@ DotNetFrameworkVersion = '4.7.1'
 
 # Assemblies that must be loaded prior to importing this module
 RequiredAssemblies = @(
-    'lib\System.Buffers.4.5.1-netstandard2.0.dll'
+    'lib\System.Buffers.4.4.0-netstandard2.0.dll'
     'lib\DnsClient.1.7.0-netstandard2.0.dll'
 )
 
