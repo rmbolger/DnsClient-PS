@@ -1,7 +1,7 @@
 @{
 
 RootModule = 'DnsClient-PS.psm1'
-ModuleVersion = '1.1.0'
+ModuleVersion = '1.1.1'
 GUID = '698438cc-f80d-4b88-aa04-16e302c1f326'
 Author = 'Ryan Bolger'
 Copyright = '(c) 2020 Ryan Bolger. All rights reserved.'
@@ -54,9 +54,9 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         ReleaseNotes = @'
-## 1.1.0 (2023-03-25)
+## 1.1.1 (2023-05-22)
 
-* Upgraded DnsClient library version to 1.7.0 which includes support for parsing many additional record types including TLSA, RRSIG, DS, NSEC, DNSKEY, NAPTR, NSEC3, NSEC3PARAM, and SPF
+* Fixed Windows PowerShell support by rolling back the System.Buffers library dependency to 4.4.0 (#2).
 '@
 
     } # End of PSData hashtable
