@@ -1,7 +1,7 @@
 @{
 
 RootModule = 'DnsClient-PS.psm1'
-ModuleVersion = '1.1.1'
+ModuleVersion = '1.2.0'
 GUID = '698438cc-f80d-4b88-aa04-16e302c1f326'
 Author = 'Ryan Bolger'
 Copyright = '(c) 2020 Ryan Bolger. All rights reserved.'
@@ -13,7 +13,7 @@ DotNetFrameworkVersion = '4.7.1'
 # Assemblies that must be loaded prior to importing this module
 RequiredAssemblies = @(
     'lib\System.Buffers.4.4.0-netstandard2.0.dll'
-    'lib\DnsClient.1.7.0-netstandard2.0.dll'
+    'lib\DnsClient.1.8.0-netstandard2.0.dll'
 )
 
 # Format files (.ps1xml) to be loaded when importing this module
@@ -54,9 +54,9 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         ReleaseNotes = @'
-## 1.1.1 (2023-05-22)
+## 1.2.0 (2025-09-15)
 
-* Fixed Windows PowerShell support by rolling back the System.Buffers library dependency to 4.4.0 (#2).
+* Upgraded DnsClient library version to 1.8.0 which includes support for the CERT record type and other bug fixes
 '@
 
     } # End of PSData hashtable

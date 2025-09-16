@@ -12,7 +12,7 @@
             The API of this class might change over time and receive breaking changes. Use at own risk.
             </remarks>
         </member>
-        <member name="M:DnsClient.DnsDatagramReader.ParseString(System.ArraySegment{System.Byte})">
+        <member name="M:DnsClient.DnsDatagramReader.ParseString(System.Byte[])">
             <summary>
             As defined in https://tools.ietf.org/html/rfc1035#section-5.1 except '()' or '@' or '.'
             </summary>
@@ -99,6 +99,11 @@
             Type used by <see cref="T:DnsClient.Protocol.AfsDbRecord"/>.
             </summary>
         </member>
+        <member name="F:DnsClient.Protocol.AfsType.None">
+            <summary>
+            Does nothing.
+            </summary>
+        </member>
         <member name="F:DnsClient.Protocol.AfsType.Afs">
             <summary>
             AFS is a registered trademark of Transarc Corporation
@@ -164,6 +169,127 @@
             <param name="tag">The tag.</param>
             <param name="value">The value.</param>
             <exception cref="T:System.ArgumentNullException">If <paramref name="info"/> or <paramref name="tag"/> or <paramref name="value"/> is null.</exception>
+        </member>
+        <member name="T:DnsClient.Protocol.CertificateType">
+            <summary>
+            Certificate type values
+            </summary>
+            <remarks>
+             <seealso href="https://tools.ietf.org/html/rfc4398#section-2.1">RFC 4398 section 2.1</seealso>
+            </remarks>
+        </member>
+        <member name="F:DnsClient.Protocol.CertificateType.None">
+            <summary>
+            Reserved certificate type.
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.CertificateType.PKIX">
+            <summary>
+            X.509 as per PKIX
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.CertificateType.SPKI">
+            <summary>
+            SPKI certificate
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.CertificateType.PGP">
+            <summary>
+            OpenPGP packet
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.CertificateType.IPKIX">
+            <summary>
+            URL to an X.509 data object 
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.CertificateType.ISPKI">
+            <summary>
+             Url of an SPKI certificate
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.CertificateType.IPGP">
+            <summary>
+            fingerprint + URL of an OpenPGP packet
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.CertificateType.ACPKIX">
+            <summary>
+            Attribute Certificate
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.CertificateType.IACPKIK">
+            <summary>
+            The URL of an Attribute Certificate
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.CertificateType.URI">
+            <summary>
+            URI private
+            </summary>
+        </member>
+        <member name="F:DnsClient.Protocol.CertificateType.OID">
+            <summary>
+            OID private
+            </summary>
+        </member>
+        <member name="T:DnsClient.Protocol.CertRecord">
+             <summary>A representation of CERT RDATA format.
+             <remarks>
+             RFC 4398.
+            
+             Record format:
+             <code>
+                                 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3
+             0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+             +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+             |             type              |             key tag           |
+             +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+             |   algorithm   |                                               /
+             +---------------+            certificate or CRL                 /
+             /                                                               /
+             +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-|
+             </code>
+             </remarks>
+             <see href="https://datatracker.ietf.org/doc/html/rfc4398#section-2"/>
+             </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.CertRecord.CertType">
+            <summary>
+            Gets the <see cref="P:DnsClient.Protocol.CertRecord.CertType"/> referred to by this record
+            </summary>
+            <value>The CERT RR type of this certificate</value>
+        </member>
+        <member name="P:DnsClient.Protocol.CertRecord.KeyTag">
+            <summary>
+            Gets the key tag value of the <see cref="T:DnsClient.Protocol.DnsKeyRecord"/> referred to by this record.
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc4034#appendix-B">Key Tag Calculation</seealso>
+        </member>
+        <member name="P:DnsClient.Protocol.CertRecord.Algorithm">
+            <summary>
+            Gets certificate algorithm (see RFC 4034, Appendix 1)
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.CertRecord.PublicKey">
+            <summary>
+            Gets the raw certificate RDATA.
+            </summary>
+            <summary>
+            Gets the public key material.
+            The format depends on the <see cref="P:DnsClient.Protocol.CertRecord.Algorithm"/> of the key being stored.
+            </summary>
+        </member>
+        <member name="P:DnsClient.Protocol.CertRecord.PublicKeyAsString">
+            <summary>
+            Gets the base64 string representation of the <see cref="P:DnsClient.Protocol.CertRecord.PublicKey"/>.
+            </summary>
+        </member>
+        <member name="M:DnsClient.Protocol.CertRecord.#ctor(DnsClient.Protocol.ResourceRecordInfo,System.Int32,System.Int32,System.Byte,System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:DnsClient.Protocol.DnsKeyRecord"/> class
+            </summary>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="info"/> or <paramref name="publicKey"/> is null.</exception>
         </member>
         <member name="T:DnsClient.Protocol.CNameRecord">
             <summary>
@@ -892,6 +1018,11 @@
             <seealso cref="T:DnsClient.Protocol.DnsResourceRecord"/>
             <seealso cref="T:DnsClient.Protocol.ResourceRecordType"/>
         </member>
+        <member name="F:DnsClient.Protocol.ResourceRecordType.None">
+            <summary>
+            Nothing.
+            </summary>
+        </member>
         <member name="F:DnsClient.Protocol.ResourceRecordType.A">
             <summary>
             A host address.
@@ -1040,6 +1171,16 @@
             </summary>
             <seealso href="https://tools.ietf.org/html/rfc2915">RFC 2915</seealso>
             <seealso cref="T:DnsClient.Protocol.NAPtrRecord"/>
+        </member>
+        <member name="F:DnsClient.Protocol.ResourceRecordType.CERT">
+            <summary>
+            Cryptographic public keys are frequently published, and their
+            authenticity is demonstrated by certificates.  A CERT resource record
+            (RR) is defined so that such certificates and related certificate
+            revocation lists can be stored in the Domain Name System (DNS).
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc4398">RFC 4398</seealso>
+            <seealso cref="T:DnsClient.Protocol.CertRecord"/>
         </member>
         <member name="F:DnsClient.Protocol.ResourceRecordType.OPT">
             <summary>
@@ -4498,6 +4639,18 @@
             </summary>
             <param name="address">The address.</param>
         </member>
+        <member name="M:DnsClient.NameServer.ToNameServer(System.Net.IPEndPoint)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DnsClient.NameServer"/> class from a <see cref="P:DnsClient.NameServer.IPEndPoint"/>.
+            </summary>
+            <param name="endPoint">The endpoint.</param>
+        </member>
+        <member name="M:DnsClient.NameServer.ToNameServer(System.Net.IPAddress)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DnsClient.NameServer"/> class from a <see cref="T:System.Net.IPAddress"/>.
+            </summary>
+            <param name="endPoint">The address.</param>
+        </member>
         <member name="P:DnsClient.NameServer.Address">
             <summary>
             Gets the string representation of the configured <see cref="T:System.Net.IPAddress"/>.
@@ -4584,6 +4737,11 @@
             CLASS fields appear in resource records.
             </summary>
         </member>
+        <member name="F:DnsClient.QueryClass.Node">
+            <summary>
+            Nothing.
+            </summary>
+        </member>
         <member name="F:DnsClient.QueryClass.IN">
             <summary>
             The Internet.
@@ -4608,6 +4766,11 @@
             <summary>
             The query type field appear in the question part of a query.
             Query types are a superset of <see cref="T:DnsClient.Protocol.ResourceRecordType"/>.
+            </summary>
+        </member>
+        <member name="F:DnsClient.QueryType.None">
+            <summary>
+            Nothing.
             </summary>
         </member>
         <member name="F:DnsClient.QueryType.A">
@@ -4758,6 +4921,16 @@
             </summary>
             <seealso href="https://tools.ietf.org/html/rfc2915">RFC 2915</seealso>
             <seealso cref="T:DnsClient.Protocol.NAPtrRecord"/>
+        </member>
+        <member name="F:DnsClient.QueryType.CERT">
+            <summary>
+            Cryptographic public keys are frequently published, and their
+            authenticity is demonstrated by certificates.  A CERT resource record
+            (RR) is defined so that such certificates and related certificate
+            revocation lists can be stored in the Domain Name System (DNS).
+            </summary>
+            <seealso href="https://tools.ietf.org/html/rfc4398">RFC 4398</seealso>
+            <seealso cref="T:DnsClient.Protocol.CertRecord"/>
         </member>
         <member name="F:DnsClient.QueryType.DS">
             <summary>
@@ -5056,6 +5229,13 @@
             </summary>
             <param name="records">The records.</param>
             <returns>The list of <see cref="T:DnsClient.Protocol.NAPtrRecord"/>.</returns>
+        </member>
+        <member name="M:System.Linq.RecordCollectionExtension.CertRecords(System.Collections.Generic.IEnumerable{DnsClient.Protocol.DnsResourceRecord})">
+            <summary>
+            Filters the elements of an <see cref="T:System.Collections.Generic.IEnumerable`1"/> to return <see cref="T:DnsClient.Protocol.CertRecord"/>s only.
+            </summary>
+            <param name="records">The records.</param>
+            <returns>The list of <see cref="T:DnsClient.Protocol.CertRecord"/>.</returns>
         </member>
         <member name="M:System.Linq.RecordCollectionExtension.UriRecords(System.Collections.Generic.IEnumerable{DnsClient.Protocol.DnsResourceRecord})">
             <summary>
