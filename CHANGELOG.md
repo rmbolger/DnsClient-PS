@@ -1,3 +1,7 @@
+## 1.2.1 (2026-05-08)
+
+* Fixed non-standard NameServer ports being effectively ignored. (#6)
+
 ## 1.2.0 (2025-09-15)
 
 * Upgraded DnsClient library version to 1.8.0 which includes support for the CERT record type and other bug fixes

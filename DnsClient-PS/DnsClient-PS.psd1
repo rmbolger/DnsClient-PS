@@ -1,7 +1,7 @@
 @{
 
 RootModule = 'DnsClient-PS.psm1'
-ModuleVersion = '1.2.0'
+ModuleVersion = '1.2.1'
 GUID = '698438cc-f80d-4b88-aa04-16e302c1f326'
 Author = 'Ryan Bolger'
 Copyright = '(c) 2020 Ryan Bolger. All rights reserved.'
@@ -54,9 +54,9 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         ReleaseNotes = @'
-## 1.2.0 (2025-09-15)
+## 1.2.1 (2026-05-08)
 
-* Upgraded DnsClient library version to 1.8.0 which includes support for the CERT record type and other bug fixes
+* Fixed non-standard NameServer ports being effectively ignored. (#6)
 '@
 
     } # End of PSData hashtable
