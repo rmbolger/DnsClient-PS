@@ -45,6 +45,11 @@ function Get-NameServerList {
 
         # split the nameserver from the port if it exists
         $nsString, $port = $val.Split(':')
+        if ($port -and ($port -as [int]) -gt 0) {
+            $port = [int]$port
+        } else {
+            $port = $null
+        }
 
         if ([String]::IsNullOrWhiteSpace($nsString)) {
             Write-Warning "Skipping empty nameserver value"
@@ -59,7 +64,7 @@ function Get-NameServerList {
             # (e.g. '1' -as [ipaddress] = 0.0.0.1)
             # Technically this is a "feature", but may bite people unaware.
 
-            if ($port -and ($port -as [int]) -gt 0) {
+            if ($port) {
                 $ns = [DnsClient.NameServer]::new($ip, $port)
             } else {
                 $ns = [DnsClient.NameServer]::new($ip)
@@ -76,8 +81,8 @@ function Get-NameServerList {
         if ($response.Answers.Count -gt 0) {
 
             # If there are multiple answers, we're only going to use the first one
-            # Time will tell if that comes back to bit us.
-            if ($port -and ($port -as [int]) -gt 0) {
+            # Time will tell if that comes back to bite us.
+            if ($port) {
                 $ns = [DnsClient.NameServer]::new($response.Answers[0].Address, $port)
             } else {
                 $ns = [DnsClient.NameServer]::new($response.Answers[0].Address)
